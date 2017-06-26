@@ -187,7 +187,7 @@ namespace EmberAnnihilation
                 await UseItems(target, token);
             }
             }
-        public async Task UseItems(Unit target, CancellationToken token)
+        public async Task UseItems(Unit target, token)
 {
             var called = EntityManager<Hero>.Entities
                 .Where(x => this.MyHero.Team != x.Team && x.IsValid && !x.IsIllusion && x.IsAlive)
