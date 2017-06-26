@@ -184,7 +184,23 @@ namespace EmberAnnihilation
                     }
                 }
                 await Task.Delay(1);
+                await UseItems(target, token);
             }
+        public async Task UseItems(Unit target, CancellationToken token)
+{
+            var called = EntityManager<Hero>.Entities
+                .Where(x => this.MyHero.Team != x.Team && x.IsValid && !x.IsIllusion && x.IsAlive)
+                .ToList();
+
+            if (called.Any())
+            {
+                var veil = this.MyHero.GetItemById(AbilityId.item_veil_of_discord);
+                if (veil != null && veil.CanBeCasted() && this.Config.UseItems.Value.IsEnabled(veil.Name))
+                {
+                    veil.UseAbility();
+                    await Task.Delay(10, token);
+                }
+}
         }
     }
 }
