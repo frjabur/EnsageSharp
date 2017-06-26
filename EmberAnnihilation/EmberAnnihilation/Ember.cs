@@ -186,6 +186,7 @@ namespace EmberAnnihilation
                 await Task.Delay(1);
                 await UseItems(target, token);
             }
+            }
         public async Task UseItems(Unit target, CancellationToken token)
 {
             var called = EntityManager<Hero>.Entities
