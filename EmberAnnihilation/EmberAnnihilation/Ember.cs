@@ -25,6 +25,8 @@ namespace EmberAnnihilation
         private Config Config { get; set; }
         public Hero Me { get; set; }
         public Unit Fountain { get; set; }
+        private Unit Target;
+        private Unit MyHero;
         private ITargetSelectorManager Selector { get; }
 
         [ImportingConstructor]
@@ -187,15 +189,15 @@ namespace EmberAnnihilation
                 await UseItems(target, token);
             }
             }
-        public async Task UseItems(object sender, OnValueChangeEventArgs args)
+        public async Task UseItems(Unit target, CancellationToken token)
 {
             var called = EntityManager<Hero>.Entities
-                .Where(x => this.MyHero.Team != x.Team && x.IsValid && !x.IsIllusion && x.IsAlive)
+                .Where(x => this.Me.Team != x.Team && x.IsValid && !x.IsIllusion && x.IsAlive)
                 .ToList();
 
             if (called.Any())
             {
-                var veil = this.MyHero.GetItemById(AbilityId.item_veil_of_discord);
+                var veil = this.Me.GetItemById(AbilityId.item_veil_of_discord);
                 if (veil != null && veil.CanBeCasted() && this.Config.UseItems.Value.IsEnabled(veil.Name))
                 {
                     veil.UseAbility();
